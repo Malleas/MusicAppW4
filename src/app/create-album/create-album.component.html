@@ -1,0 +1,21 @@
+<form (ngSubmit)="onSubmit()" #createForm="ngForm">
+  <p>Create a new Album</p>
+  <div class="form-group">
+        <input type="text" class="form-control" id="title" required [(ngModel)]="title" name="title" placeholder="Album Title">
+  </div>
+  <div class="form-group">
+        <input type="text" class="form-control" id="artist" required [(ngModel)]="artist" name="artist"  placeholder="Artist Name">
+  </div>
+  <div class="form-group">
+        <input type="number" class="form-control" id="year" required [(ngModel)]="year" name="year"  placeholder="Year">
+  </div>
+  <div class="form-group">
+        <input type="text" class="form-control" id="image" required [(ngModel)]="image" name="image"  placeholder="Album Cover Art">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="description" required [(ngModel)]="description" name="description"  placeholder="Description">
+  </div>
+  <button type="submit" class="btn btn-primary" >Submit</button>
+</form>
+
+
