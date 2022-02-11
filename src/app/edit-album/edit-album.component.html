@@ -1,19 +1,19 @@
 <form (ngSubmit)="onSubmit()" #editForm="ngForm">
   <p>Edit Album</p>
   <div class="form-group">
-    <input type="text" class="form-control" id="title" required [(ngModel)]="title" name="title" placeholder="title">
+    <input type="text" class="form-control" id="title" required [(ngModel)]="album.title" name="title" placeholder="{{album.title}}">
   </div>
   <div class="form-group">
-    <input type="text" class="form-control" id="artist" required [(ngModel)]="artist" name="artist"  placeholder="artist">
+    <input type="text" class="form-control" id="artist" required [(ngModel)]="album.artist" name="artist"  placeholder="{{album.artist}}">
   </div>
   <div class="form-group">
-    <input type="number" class="form-control" id="year" required [(ngModel)]="year" name="year"  placeholder="year">
+    <input type="number" class="form-control" id="year" required [(ngModel)]="album.year" name="year"  placeholder="{{album.year}}">
   </div>
   <div class="form-group">
-    <input type="text" class="form-control" id="image" required [(ngModel)]="image" name="image"  placeholder="image">
+    <input type="text" class="form-control" id="image" required [(ngModel)]="album.image" name="image"  placeholder="{{album.image}}">
   </div>
   <div class="form-group">
-    <input type="text" class="form-control" id="description" required [(ngModel)]="description" name="description"  placeholder="description">
+    <input type="text" class="form-control" id="description" required [(ngModel)]="album.description" name="description"  placeholder="{{album.description}}">
   </div>
   <button type="submit" class="btn btn-primary" >Submit</button>
 </form>

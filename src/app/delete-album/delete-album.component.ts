@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {MusicServiceService} from "../service/music-service.service";
 
 @Component({
   selector: 'app-delete-album',
@@ -7,15 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeleteAlbumComponent implements OnInit {
 
-  id:any
+  result:any
 
-  constructor() { }
+  constructor(private route:ActivatedRoute, private service:MusicServiceService) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.result = this.service.deleteAlbum(params['id'])
+    })
   }
 
-  onSubmit(){
-
-  }
 
 }

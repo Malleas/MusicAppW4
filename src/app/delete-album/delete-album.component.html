@@ -1,8 +1,6 @@
-<form (ngSubmit)="onSubmit()" #editForm="ngForm">
-  <p>Delete Album</p>
-  <div class="form-group">
-    <input type="text" class="form-control" id="id" required [(ngModel)]="id" name="title" placeholder="Id">
-  </div>
-    <button type="submit" class="btn btn-primary" >Submit</button>
+<form *ngIf="result == 0" #deleteForm="ngForm">
+  <p>Album Delete Successful</p>
+
+    <button type="submit" class="btn btn-primary" [routerLink]="['/list-artists']" >Home</button>
 </form>
 
