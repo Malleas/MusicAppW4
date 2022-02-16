@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {default as exampleData} from '../../data/sample-music-data.json'
 import {Artist} from "../models/Artist";
 import {Album} from "../models/Album";
 import {Track} from "../models/Track";
+import {HttpClient} from "@angular/common/http";
 
 
 @Injectable({
@@ -10,89 +10,68 @@ import {Track} from "../models/Track";
 })
 export class MusicServiceService {
 
-  artists:Artist[] = []
-  albums:Album[] = []
+  hostname: string = "http://localhost:3000"
 
-  constructor() {
-    this.artists.push(new Artist(0, "The Beatles"))
+  constructor(private http: HttpClient) {
 
-    for (let i = 0; i < exampleData.length; i++){
-      let tracks:Track[] = []
-     for(let j = 0; j < exampleData[i].tracks.length; j++){
-      tracks.push(new Track(exampleData[i].tracks[j].id, exampleData[i].tracks[j].number, exampleData[i].tracks[j].title,
-        exampleData[i].tracks[j].lyrics))
-       }
-      this.albums.push(new Album(exampleData[i].id, exampleData[i].title, exampleData[i].artist, exampleData[i].year, exampleData[i].image,
-        exampleData[i].description, tracks))
-    }
   }
 
-  public getIndex(){
-    return this.albums.length+1
-  }
-
-  public getArtists(){
-    return this.artists
-  }
-
-  public getAlbums(artist: any) {
-    let albums: Album[] = []
-    for(let i = 0; i < this.albums.length; i++){
-      if(this.albums[i].artist === artist.name){
-        albums.push(new Album(this.albums[i].id, this.albums[i].title, this.albums[i].artist, this.albums[i].year,
-          this.albums[i].image, this.albums[i].description, this.albums[i].tracks))
+  public getArtists(callback: any){
+    this.http.get<Artist[]>(this.hostname + "/artists").subscribe((data) => {
+      let artists:Artist[] = [];
+      for(let x=0;x < data.length;++x){
+        artists.push(new Artist(data[x]['id'], data[x]['name']));
       }
-    }
-    return albums
+      callback(artists);
+    });
   }
 
-
-  public getAlbum(id:number){
-    for(let i = 0; i < this.albums.length; i++){
-      if(this.albums[i].id == id){
+  public getAlbums(artist:string, callback: any) {
+    this.http.get<Album[]>(this.hostname + "/albums/" + artist).subscribe((data) =>{
+      let albums:Album[] = []
+      for (let i = 0; i < data.length; i++){
         let tracks:Track[] = []
-        for (let j = 0; j < this.albums[i].tracks.length; j++){
-          tracks.push(new Track(this.albums[i].tracks[j].id, this.albums[i].tracks[j].number, this.albums[i].tracks[j].title,
-            this.albums[i].tracks[j].lyrics))
+        for (let j = 0; j < data[i]['tracks'].length; j++){
+          tracks.push(new Track(data[i]['tracks'][j]['id'], data[i]['tracks'][j]['number'], data[i]['tracks'][j]['title'],
+            data[i]['tracks'][j]['lyrics']))
         }
-        return new Album(this.albums[i].id, this.albums[i].title, this.albums[i].artist, this.albums[i].year, this.albums[i].image,
-          this.albums[i].description, tracks)
+        albums.push(new Album(data[i]['id'], data[i]['title'], data[i]['artist'], data[i]['year'], data[i]['image'],
+          data[i]['description'], tracks))
       }
-    }
-    return null;
+      callback(albums)
+    })
   }
 
-  public createAlbum(album:Album){
-        if(this.albums.push(new Album(this.albums.length+1, album.title, album.artist, album.year, album.image,
-      album.description, album.tracks))){
-          this.artists.push(new Artist(this.artists.length+1, album.artist))
-          return this.albums.length+1
-    }else {
-      return -1
-    }
+
+  public getAlbum(id:number, callback: any){
+    this.http.get<Album>(this.hostname + "/album/" + id).subscribe((data) =>{
+      let tracks:Track[] = []
+      for (let j = 0; j < data['tracks'].length; j++){
+        tracks.push(new Track(data['tracks'][j]['id'], data['tracks'][j]['number'], data['tracks'][j]['title'],
+          data['tracks'][j]['lyrics']))
+      }
+      let album = new Album(data['id'], data['title'], data['artist'], data['year'], data['image'],
+        data['description'], tracks)
+      callback(album)
+    })
+
   }
 
-  public updateAlbum(album:Album){
-    for(let i = 0; i < this.albums.length; i++){
-      if(this.albums[i].id == album.id){
-        this.albums[i].title = album.title
-        this.albums[i].artist = album.artist
-        this.albums[i].year = album.year
-        this.albums[i].image = album.image
-        this.albums[i].description = album.description
-        return 0
-      }
-    }
-    return -1
+  public createAlbum(album:Album, callback: any){
+    this.http.post<Album>(this.hostname + "/albums", album).subscribe((data) => {
+      callback(data)
+    })
   }
 
-  public deleteAlbum(id:number){
-    for(let i = 0; i < this.albums.length; i++){
-      if(this.albums[i].id == id){
-        this.albums.splice(i,1 )
-        return 0
-      }
-    }
-    return -1
+  public updateAlbum(album:Album, callback: any){
+    this.http.put<Album>(this.hostname + "/albums", album).subscribe((data) => {
+      callback(data)
+    })
+  }
+
+  public deleteAlbum(id:number, callback: any) {
+    this.http.delete(this.hostname + "/albums/" + id).subscribe((data) =>{
+      callback(data)
+    })
   }
 }

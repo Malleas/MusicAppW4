@@ -9,13 +9,13 @@ import {MusicServiceService} from "../service/music-service.service";
 })
 export class DeleteAlbumComponent implements OnInit {
 
-  result:any
-
   constructor(private route:ActivatedRoute, private service:MusicServiceService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.result = this.service.deleteAlbum(params['id'])
+      this.service.deleteAlbum(params['id'], (results:string) =>{
+        window.alert(results)
+      })
     })
   }
 

@@ -9,7 +9,7 @@ import {Track} from "../models/Track";
   styleUrls: ['./create-album.component.css']
 })
 export class CreateAlbumComponent implements OnInit {
-
+  id: any
   title: any
   artist: any
   year: any
@@ -22,10 +22,11 @@ export class CreateAlbumComponent implements OnInit {
   }
 
   onSubmit(){
-    let id : number = this.service.getIndex()
     let tracks:Track[] = []
-    let album:Album = new Album(id, this.title, this.artist, this.year, this.image, this.description, tracks)
-    this.service.createAlbum(album)
+    let album:Album = new Album(this.id, this.title, this.artist, this.year, this.image, this.description, tracks)
+    this.service.createAlbum(album, (results: string) => {
+      window.alert(results)
+    })
 
   }
 

@@ -16,14 +16,18 @@ export class EditAlbumComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.album = this.service.getAlbum(params['id'])
+      this.service.getAlbum(params['id'], (album:Album) => {
+        this.album = album
+      })
     })
       }
 
   onSubmit(){
     let updateAlbum:Album = new Album(this.album.id, this.album.title, this.album.artist, this.album.year,
       this.album.image, this.album.description, this.album.tracks)
-    this.service.updateAlbum(updateAlbum)
+    this.service.updateAlbum(updateAlbum, (status:string) =>{
+      window.alert(status)
+    })
   }
 
 

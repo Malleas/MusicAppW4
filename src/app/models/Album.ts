@@ -2,7 +2,7 @@ import {Track} from "./Track";
 
 export class Album
 {
-    private _id: number
+    private _id?: number
     private _title: string
     private _artist: string
     private _year: number
@@ -11,69 +11,74 @@ export class Album
     private _tracks: Track[]
 
 
-    constructor(id: number, title: string, artist: string, year: number, image: string, description: string, tracks: Track[]) {
-        this._id = id;
-        this._title = title;
-        this._artist = artist;
-        this._year = year;
-        this._image = image;
-        this._description = description;
-        this._tracks = tracks;
-    }
+  constructor(id: number, title: string, artist: string, year: number, image: string, description: string, tracks: Track[]) {
+    this._id = id;
+    this._title = title;
+    this._artist = artist;
+    this._year = year;
+    this._image = image;
+    this._description = description;
+    this._tracks = tracks;
+  }
 
-    get id(): number {
-        return this._id;
-    }
 
-    set id(value: number) {
-        this._id = value;
+  get id(): number {
+    if(this._id == undefined){
+      return -1
+    }else {
+      return this.id
     }
+  }
 
-    get title(): string {
-        return this._title;
-    }
+  set id(value: number) {
+    this._id = value;
+  }
 
-    set title(value: string) {
-        this._title = value;
-    }
+  get title(): string {
+    return this._title;
+  }
 
-    get artist(): string {
-        return this._artist;
-    }
+  set title(value: string) {
+    this._title = value;
+  }
 
-    set artist(value: string) {
-        this._artist = value;
-    }
+  get artist(): string {
+    return this._artist;
+  }
 
-    get description(): string {
-        return this._description;
-    }
+  set artist(value: string) {
+    this._artist = value;
+  }
 
-    set description(value: string) {
-        this._description = value;
-    }
+  get year(): number {
+    return this._year;
+  }
 
-    get year(): number {
-        return this._year;
-    }
+  set year(value: number) {
+    this._year = value;
+  }
 
-    set year(value: number) {
-        this._year = value;
-    }
+  get image(): string {
+    return this._image;
+  }
 
-    get tracks(): Track[] {
-        return this._tracks;
-    }
+  set image(value: string) {
+    this._image = value;
+  }
 
-    set tracks(value: Track[]) {
-        this._tracks = value;
-    }
+  get description(): string {
+    return this._description;
+  }
 
-    get image(): string {
-        return this._image;
-    }
+  set description(value: string) {
+    this._description = value;
+  }
 
-    set image(value: string) {
-        this._image = value;
-    }
+  get tracks(): Track[] {
+    return this._tracks;
+  }
+
+  set tracks(value: Track[]) {
+    this._tracks = value;
+  }
 }

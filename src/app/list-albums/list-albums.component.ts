@@ -19,8 +19,9 @@ export class ListAlbumsComponent implements OnInit {
   constructor(private service:MusicServiceService) { }
 
   ngOnInit(): void {
-    this.albums = this.service.getAlbums(this.artist)
-    this.selectedAlbum = null
+    this.service.getAlbums(this.artist.name, (albums:Album[]) =>{
+      this.albums = albums
+    })
   }
 
   public onSelectedAlbum(album:Album){
